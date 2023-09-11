@@ -6,6 +6,7 @@ import { Button, IconButton } from "@mui/material";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import api from "../utils/api"
+import { toast } from 'react-toastify';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -87,6 +88,16 @@ function TabbedCardList() {
         fetchReports();
     }, []);
 
+    const updateStatus = async (reportId, newStatus) => {
+        try {
+            const respone = await api.patch(`reports/${reportId}/status/`, { status: newStatus });
+            toast.success(respone.data.message.success)
+            fetchReports();
+        } catch (err) {
+            console.error(`Error updating status: ${err}`);
+        }
+    };
+
 
     return (
         <>
@@ -135,7 +146,9 @@ function TabbedCardList() {
                                                             'aria-labelledby': 'basic-button',
                                                         }}
                                                     >
-                                                        <MenuItem onClick={handleClose}>Edit</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "Pending")}>Set as Pending</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "Solved")}>Set as Solved</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "Failed")}>Set as Failed</MenuItem>
                                                     </Menu>
                                                 </li>
                                             </ul>
@@ -273,9 +286,7 @@ function TabbedCardList() {
                                                             'aria-labelledby': 'basic-button',
                                                         }}
                                                     >
-                                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                                        <MenuItem onClick={handleClose}>Edit</MenuItem>
                                                     </Menu>
                                                 </li>
                                             </ul>
