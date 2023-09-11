@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";   
 import TabbedCardList from "./TabbedCardList";
 import { useEffect, useState } from "react";
 import api from "../utils/api"
@@ -55,7 +55,7 @@ function ReportedCard() {
         }
     };
 
-
+    console.log({t: data,s: 1})
 
     useEffect(() => {
         fetchReports();
@@ -142,7 +142,7 @@ function ReportedCard() {
                     </Grid>
                 </div>
                 <div className="app-component-announcements__tab">
-                    <TabbedCardList />
+            <TabbedCardList fetcreports={fetcreports} />
                 </div>
                 <div className="app-component-announcements__foot">
                     <Button className="text-button">See All Reported</Button>

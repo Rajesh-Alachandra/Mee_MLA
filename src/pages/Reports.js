@@ -10,7 +10,7 @@ function Reports() {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
 
-    console.log(data)
+    console.log({data})
 
     const fetcreports = async () => {
         console.log("1")
@@ -116,7 +116,7 @@ function Reports() {
                                                 </Grid>
                                             </div>
                                             <div className="app-component-announcements__tab">
-                                                <TabbedCardList />
+                                                <TabbedCardList fetcreports={fetcreports} />
                                             </div>
                                             <div className="app-component-announcements__foot">
                                                 <Button className="text-button">See All Reported</Button>

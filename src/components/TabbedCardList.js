@@ -36,7 +36,7 @@ CustomTabPanel.propTypes = {
 
 
 
-function TabbedCardList() {
+function TabbedCardList({ fetcreports }) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -92,6 +92,9 @@ function TabbedCardList() {
         try {
             const respone = await api.patch(`reports/${reportId}/status/`, { status: newStatus });
             toast.success(respone.data.message.success)
+            // window.location.reload();
+            setAnchorEl(null);
+            fetcreports()
             fetchReports();
         } catch (err) {
             console.error(`Error updating status: ${err}`);
@@ -146,9 +149,9 @@ function TabbedCardList() {
                                                             'aria-labelledby': 'basic-button',
                                                         }}
                                                     >
-                                                        <MenuItem onClick={() => updateStatus(item.id, "Pending")}>Set as Pending</MenuItem>
-                                                        <MenuItem onClick={() => updateStatus(item.id, "Solved")}>Set as Solved</MenuItem>
-                                                        <MenuItem onClick={() => updateStatus(item.id, "Failed")}>Set as Failed</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "pending")}>Set as Pending</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "solved")}>Set as Solved</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "failed")}>Set as Failed</MenuItem>
                                                     </Menu>
                                                 </li>
                                             </ul>

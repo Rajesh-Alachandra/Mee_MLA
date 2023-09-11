@@ -685,6 +685,9 @@ body{
     margin: 20px 0px 0px 0px;
     padding: 20px;
   }
+  .phase-box-content{
+    width: 100%;
+  }
   .phase-box-content h4{
     color: var(--Secondary-Title-Color, #303030);
     font-family: 'Objectivity';
@@ -926,4 +929,16 @@ body{
     text-align: center;
     font-family: 'Objectivity';
     font-weight: 700;
+  }
+
+  ._0bpq{
+    margin: 10px 0;
+  }
+  .choice-text {
+    color: rgb(89, 89, 205); 
+    font-weight: bolder;
+  }
+  ._0cyc{
+    display: flex;
+    justify-content: space-between;
   }

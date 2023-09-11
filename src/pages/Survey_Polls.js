@@ -6,7 +6,7 @@ import comment from '../Icons/comment.svg';
 import repost from '../Icons/re-post.svg';
 import share from '../Icons/share.svg';
 import addoption from '../Icons/add-option.svg'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PollCreator from "../components/PollCreator";
 import api from "../utils/api"
 import { toast } from "react-toastify";
@@ -16,9 +16,9 @@ function Survey_Polls() {
     const [pollQuestion, setPollQuestion] = useState('');
     const [pollChoices, setPollChoices] = useState(['']);
 
-    console.log(pollChoices)
+    console.log('pollchoices', pollChoices)
     const dataaa = pollChoices.map((text) => {
-        console.log(text)
+        console.log('poll text', text)
         return (
             { text }
         )
@@ -74,6 +74,7 @@ function Survey_Polls() {
                 console.log('Poll successfully created!');
                 setPollQuestion('');
                 setPollChoices(['']);
+                console.log('pollwholedata', setPollChoices)
             } else {
                 console.error('Error creating the poll.');
             }
@@ -81,7 +82,33 @@ function Survey_Polls() {
             console.error('An error occurred:', error);
         }
     };
+    const [pollData, setPollData] = useState([]);
 
+    useEffect(() => {
+
+        async function fetchPollData() {
+            try {
+                const { data, status } = await api.get("polls/");
+                if (status === 200) {
+                    setPollData(data);
+
+                    const initialUserVotes = {};
+                    data.forEach((poll) => {
+                        poll.choices.forEach((choice) => {
+                            initialUserVotes[choice.id] = false;
+                        });
+                    });
+                    setUserVotes(initialUserVotes);
+                } else {
+                    console.error("Failed to fetch poll data.");
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
+        }
+
+        fetchPollData();
+    }, []);
     return (
         <>
             <div className="app-page-home">
@@ -135,122 +162,45 @@ function Survey_Polls() {
                                         </div>
                                     </Grid>
 
-                                    {/* <Grid item xs={6} lg={6}>
+                                    <Grid item xs={6} lg={6}>
                                         <div className="option-share">
                                             <div className="new-feeds-content">
                                                 <div className="feeds-top-content">
-                                                    <h4>Opinion</h4>
+                                                    <h4>Created polls</h4>
                                                 </div>
-                                                <div className="add-post">
+                                                {/* <div className="add-post">
                                                     <Button>See More</Button>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className="phase-box">
-                                                <div className="election-meeting">
-                                                    <div className="phase-box-content">
-                                                        <h4>Election Meeting with Parliament</h4>
-                                                        <p>Today - 10:30 AM</p>
-                                                    </div>
-                                                    <div className="menu-dots">
-                                                        <div class="dropdown">
-                                                            <button class="dropbtn">
-                                                                <img src={dots} />
-                                                            </button>
-                                                            <div class="dropdown-content">
-                                                                <a href="#">Edit</a>
-                                                                <a href="#">Delete</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="post-image">
-                                                    <img src={parliament} />
-                                                    <div class="post-image-buttons">
-                                                        <div class="post-buttons-1">
-                                                            <ul>
-                                                                <li>
-                                                                    <Button>
-                                                                        <img src={like} />
-                                                                        <span>Like</span>
-                                                                    </Button>
-                                                                </li>
-                                                                <li>
-                                                                    <Button>
-                                                                        <img src={comment} />
-                                                                        <span>Comments</span>
-                                                                    </Button>
-                                                                </li>
-                                                                <li>
-                                                                    <Button>
-                                                                        <img src={repost} />
-                                                                        <span>Repost</span>
-                                                                    </Button>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="post-image-buttons-2">
-                                                        <ul>
-                                                            <li>
-                                                                <Button>
-                                                                    <img src={share} />
-                                                                    <span>Share</span>
-                                                                </Button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="phase-box">
-                                                <div className="election-meeting">
-                                                    <div className="phase-box-content">
-                                                        <h4>Government has launched revised guideline for MDLADS 2023</h4>
-                                                        <p>Today - 10:30 AM</p>
-                                                    </div>
-                                                    <div className="menu-dots">
-                                                        <div class="dropdown">
-                                                            <button class="dropbtn">
-                                                                <img src={dots} />
-                                                            </button>
-                                                            <div class="dropdown-content">
-                                                                <a href="#">Edit</a>
-                                                                <a href="#">Delete</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                {pollData.map((poll, index) => (
+                                                    <div className="election-meeting" key={index}>
+                                                        <div className="phase-box-content">
+                                                            <div className="_0bpq">
+                                                                <h3>{poll.question}</h3>
+                                                                {poll.choices.map((choice, choiceIndex) => (
+                                                                    <div className="_0cyc"key={choiceIndex}>
+                                                                        <span className="choice-text">
+                                                                            {choice.text}:
+                                                                        </span>
+                                                                        <span>
+                                                                         {choice.votes} votes
+                                                                         </span>
+                                                                    </div>
+                                                                ))}
 
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                <div className="post-image"></div>
                                             </div>
-                                            <div className="surveys-polls">
-                                                <div className="new-feeds-content">
-                                                    <div className="feeds-top-content">
-                                                        <h4>Opinion</h4>
-                                                    </div>
-                                                    <div className="add-post">
-                                                        <Button>See More</Button>
-                                                    </div>
-                                                </div>
-                                                <div className="phase-box">
-                                                    <div className="phase-box-content">
-                                                        <h4>In Phase 1  near RythuBazar can we have wall painted with doodles.</h4>
-                                                        <p><strong>Kukatpally</strong>, Today, 09:15 AM</p>
-                                                    </div>
-                                                </div>
-                                                <div className="phase-box phase-box-2">
-                                                    <div className="phase-box-content">
-                                                        <h4>In Phase 1  near RythuBazar can we have wall painted with doodles.</h4>
-                                                        <p><strong>Kukatpally</strong>, Today, 09:15 AM</p>
-                                                    </div>
-                                                </div>
-                                                <div className="phase-box">
-                                                    <div className="phase-box-content">
-                                                        <h4>In Phase 1  near RythuBazar can we have wall painted with doodles.</h4>
-                                                        <p><strong>Kukatpally</strong>, Today, 09:15 AM</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
-                                    </Grid> */}
+
+
+                                    </Grid>
                                 </Grid>
                             </div>
                         </div>
