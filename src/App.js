@@ -18,6 +18,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Login';
 import DashBoard from './layouts/DashBoard';
 import { useAuth } from './components/AuthProvider';
+import Create_Admin from './pages/Create_Admin';
+import Create_Agent from './pages/Create_Agent';
+import UploadVotersData from './pages/UploadVotersData';
 
 
 function App() {
@@ -33,6 +36,9 @@ function App() {
         <Route path='/Dashboard' element={<DashBoard />}>
           <Route path="/Dashboard" element={<Home />} />
           <Route path="/Dashboard/home" element={<Home />} />
+          <Route path="/Dashboard/admin" element={<Create_Admin />} />
+          <Route path="/Dashboard/agent" element={<Create_Agent />} />
+          <Route path="/Dashboard/votersdata" element={<UploadVotersData />} />
           <Route path="/Dashboard/Mainfeeds" element={<MainFeeds />} />
           <Route path="/Dashboard/create_post" element={<Create_post />} />
           <Route path="/Dashboard/create_post/:id" element={<Create_post />} />
