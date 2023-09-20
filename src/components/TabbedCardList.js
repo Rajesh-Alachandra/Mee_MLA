@@ -146,9 +146,9 @@ function TabbedCardList() {
                                                             'aria-labelledby': 'basic-button',
                                                         }}
                                                     >
-                                                        <MenuItem onClick={() => updateStatus(item.id, "Pending")}>Set as Pending</MenuItem>
-                                                        <MenuItem onClick={() => updateStatus(item.id, "Solved")}>Set as Solved</MenuItem>
-                                                        <MenuItem onClick={() => updateStatus(item.id, "Failed")}>Set as Failed</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "pending")}>Set as Pending</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "solved")}>Set as Solved</MenuItem>
+                                                        <MenuItem onClick={() => updateStatus(item.id, "failed")}>Set as Failed</MenuItem>
                                                     </Menu>
                                                 </li>
                                             </ul>

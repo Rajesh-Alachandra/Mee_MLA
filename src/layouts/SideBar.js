@@ -19,7 +19,7 @@ function SideBar() {
                     <img src="/images/logo.svg" />
                 </div>
                 <div className="app-sidebar-menu">
-                    <ul className="app-sidebar-menu-list">
+                    {/* <ul className="app-sidebar-menu-list">
                         <li className="app-sidebar-menu-list-item">
                             <Link to="/Dashboard/home"><Button className="active"><DashboardIcon /><span className="app-sidebar-menu-title">Dashboard</span></Button></Link>
                         </li>
@@ -48,6 +48,20 @@ function SideBar() {
                                     <i><img src="/images/plus.svg" /></i>
                                 </Button>
                             </div>
+                        </li>
+                    </ul> */}
+                    <ul className="app-sidebar-menu-list">
+                        <li className="app-sidebar-menu-list-item">
+                            <Link to="/Dashboard/home"><Button className="active"><DashboardIcon /><span className="app-sidebar-menu-title">Dashboard</span></Button></Link>
+                        </li>
+                        <li className="app-sidebar-menu-list-item">
+                            <Link to="/Dashboard/admin"><Button ><SurveysIcon /><span className="app-sidebar-menu-title">Create Admin</span></Button></Link>
+                        </li>
+                        <li className="app-sidebar-menu-list-item">
+                            <Link to="/Dashboard/agent"><Button ><SchemesIcon /><span className="app-sidebar-menu-title">Create Agent</span></Button></Link>
+                        </li>
+                        <li className="app-sidebar-menu-list-item">
+                            <Link to="/Dashboard/votersdata"><Button ><SettingsIcon /><span className="app-sidebar-menu-title">Update VotersData</span></Button></Link>
                         </li>
                     </ul>
                 </div>
