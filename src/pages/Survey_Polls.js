@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Tooltip } from "@mui/material";
 import dots from '../Icons/dots-2.svg'
 import parliament from '../images/parliament-meeting.svg'
 import like from '../Icons/like.svg';
@@ -8,14 +8,14 @@ import share from '../Icons/share.svg';
 import addoption from '../Icons/add-option.svg'
 import { useState, useEffect } from "react";
 import PollCreator from "../components/PollCreator";
-import api from "../utils/api"
 import { toast } from "react-toastify";
+import api, { noauthinstance } from "../utils/api"
 
 function Survey_Polls() {
 
     const [pollQuestion, setPollQuestion] = useState('');
     const [pollChoices, setPollChoices] = useState(['']);
-
+    const [triggerRefresh, setTriggerRefresh] = useState(0)
     console.log('pollchoices', pollChoices)
     const dataaa = pollChoices.map((text) => {
         console.log('poll text', text)
@@ -67,13 +67,15 @@ function Survey_Polls() {
         console.log({ pollData })
 
         try {
-            const { data, status } = await api.post('polls/', pollData);
 
+            const { data, status } = await noauthinstance.post('polls/', pollData);
+            console.log({ pollData })
             if (data) {
                 toast.success('Poll successfully created!')
                 console.log('Poll successfully created!');
                 setPollQuestion('');
                 setPollChoices(['']);
+                setTriggerRefresh(prev => prev + 1)
                 console.log('pollwholedata', setPollChoices)
             } else {
                 console.error('Error creating the poll.');
@@ -82,13 +84,15 @@ function Survey_Polls() {
             console.error('An error occurred:', error);
         }
     };
-    const [pollData, setPollData] = useState([]);
 
+
+    const [pollData, setPollData] = useState([]);
+    const [userVotes, setUserVotes] = useState([]);
     useEffect(() => {
 
         async function fetchPollData() {
             try {
-                const { data, status } = await api.get("polls/");
+                const { data, status } = await noauthinstance.get("polls/");
                 if (status === 200) {
                     setPollData(data);
 
@@ -99,6 +103,7 @@ function Survey_Polls() {
                         });
                     });
                     setUserVotes(initialUserVotes);
+                    setTriggerRefresh(prev => prev + 1)
                 } else {
                     console.error("Failed to fetch poll data.");
                 }
@@ -108,6 +113,7 @@ function Survey_Polls() {
         }
 
         fetchPollData();
+
     }, []);
     return (
         <>
@@ -166,29 +172,33 @@ function Survey_Polls() {
                                         <div className="option-share">
                                             <div className="new-feeds-content">
                                                 <div className="feeds-top-content">
-                                                    <h4>Created polls</h4>
+                                                    <h3>Created polls</h3>
                                                 </div>
-                                                {/* <div className="add-post">
-                                                    <Button>See More</Button>
-                                                </div> */}
                                             </div>
                                             <div className="phase-box">
+        
                                                 {pollData.map((poll, index) => (
                                                     <div className="election-meeting" key={index}>
                                                         <div className="phase-box-content">
                                                             <div className="_0bpq">
                                                                 <h3>{poll.question}</h3>
+                                                               
+
                                                                 {poll.choices.map((choice, choiceIndex) => (
-                                                                    <div className="_0cyc"key={choiceIndex}>
+                                                                    <div className="_0cyc" key={choiceIndex}>
                                                                         <span className="choice-text">
-                                                                            {choice.text}:
+                                                                            {choice.text}
                                                                         </span>
-                                                                        <span>
-                                                                         {choice.votes} votes
-                                                                         </span>
+                                                                        <div className="linear-graph">
+                                                                            <Tooltip title={`${choice.votes} votes`} arrow>
+                                                                                <div
+                                                                                    className="bar"
+                                                                                    style={{ width: `${(choice.votes / poll.total_votes) * 100}%` }}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </div>
                                                                     </div>
                                                                 ))}
-
 
                                                             </div>
                                                         </div>
@@ -196,11 +206,10 @@ function Survey_Polls() {
                                                 ))}
                                                 <div className="post-image"></div>
                                             </div>
-
                                         </div>
-
-
                                     </Grid>
+
+
                                 </Grid>
                             </div>
                         </div>

@@ -6,13 +6,13 @@ import api, { noauthinstance } from '../utils/api';
 import Feeds from '../components/Feeds';
 
 const Create_Agent = () => {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
+    const [first_name, setFirstname] = useState('');
+    const [last_name, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [roles, setRoles] = useState('agent');
     const [password, setPassword] = useState('');
-    const [number, setNumber] = useState('');
-    const [selectedValue, setSelectedValue] = useState('');
+    const [phone, setPhone] = useState('');
+    const [constituency, setConstituency] = useState('');
     const [pollingvalue, setPollingvalue] = useState("")
     const [constituencyData, setConstituencyData] = useState([]);
     const [pollingData, setPollingData] = useState([]);
@@ -40,30 +40,30 @@ const Create_Agent = () => {
 
     const handleConstituencyChange = (e) => {
         const selectedConstituency = e.target.value;
-        setSelectedValue(selectedConstituency);
+        setConstituency(selectedConstituency);
         fetchPollingStationsByConstituency(selectedConstituency);
     };
 
     const postAgent = async () => {
         const formData = new FormData();
-        formData.append('constituency', selectedValue);
+        formData.append('constituency', constituency);
         formData.append('polling_station', pollingvalue);
-        formData.append('firstname', firstname);
+        formData.append('first_name', first_name);
         formData.append('email', email);
         formData.append('password', password);
-        formData.append('lastname', lastname);
-        formData.append('number', number);
+        formData.append('last_name', last_name);
+        formData.append('phone', phone);
         formData.append('roles', roles);
 
         try {
-            const response = await noauthinstance.post('user/admin-register/', formData);
+            const response = await noauthinstance.post('user/agent-register/', formData);
             if (response) {
-                toast.success('Admin successfully created!');
+                toast.success('Agent successfully created!');
             }
-            setSelectedValue('');
+            setConstituency('');
             setPollingvalue('');
             setLastname('');
-            setNumber('');
+            setPhone('');
             setEmail('');
             setPassword('');
             setFirstname('');
@@ -96,7 +96,7 @@ const Create_Agent = () => {
                                                         <Grid item xs={6}>
                                                             <label>First Name</label>
                                                             <input
-                                                                value={firstname}
+                                                                value={first_name}
                                                                 onChange={(e) => setFirstname(e.target.value)}
                                                                 type="text"
                                                                 className="input-form"
@@ -106,7 +106,7 @@ const Create_Agent = () => {
                                                         <Grid item xs={6}>
                                                             <label>Last Name</label>
                                                             <input
-                                                                value={lastname}
+                                                                value={last_name}
                                                                 onChange={(e) => setLastname(e.target.value)}
                                                                 type="text"
                                                                 className="input-form"
@@ -118,17 +118,27 @@ const Create_Agent = () => {
                                             </div>
                                             <div className="form-group">
                                                 <Grid container spacing={2}>
-                                                    <Grid item xs={6}>
+                                                    <Grid item xs={4}>
                                                         <label>Phone Number</label>
                                                         <input
-                                                            value={number}
-                                                            onChange={(e) => setNumber(e.target.value)}
+                                                            value={phone}
+                                                            onChange={(e) => setPhone(e.target.value)}
                                                             type="text"
                                                             className="input-form"
                                                             placeholder="Enter PhoneNumber"
                                                         ></input>
                                                     </Grid>
-                                                    <Grid item xs={6}>
+                                                    <Grid item xs={4}>
+                                                        <label>Email</label>
+                                                        <input
+                                                            value={email}
+                                                            onChange={(e) => setEmail(e.target.value)}
+                                                            type="text"
+                                                            className="input-form"
+                                                            placeholder="Enter Email"
+                                                        ></input>
+                                                    </Grid>
+                                                    <Grid item xs={4}>
                                                         <label>Password</label>
                                                         <input
                                                             value={password}
@@ -146,7 +156,7 @@ const Create_Agent = () => {
                                                         <label>Constituency</label>
                                                         <select
                                                             className="input-form"
-                                                            value={selectedValue}
+                                                            value={constituency}
                                                             onChange={handleConstituencyChange}
                                                         >
                                                             <option value="">Select Polling Constituency</option>

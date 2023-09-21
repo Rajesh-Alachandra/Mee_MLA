@@ -55,7 +55,7 @@ function MainFeeds() {
                         <div className="app-component-reportcard">
                             <div className="app-new-feeds">
                                 <Grid container spacing={2}>
-                                    <Grid item xs={6} lg={6}>
+                                    <Grid item xs={12} lg={12}>
                                         <div className="new-feeds-content">
                                             <div className="feeds-top-content">
                                                 <h4>Feeds</h4>
@@ -142,9 +142,9 @@ function MainFeeds() {
                                             </div>
                                         ))}
                                     </Grid>
-                                    <Grid item xs={6} lg={6}>
+                                    {/* <Grid item xs={6} lg={6}>
                                         <Opinion />
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </div>
                         </div>

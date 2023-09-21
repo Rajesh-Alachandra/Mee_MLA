@@ -50,22 +50,32 @@ export default function Login() {
             console.log({ response })
 
             if (response.data && response.data.access) {
-                const accessToken = response.data.access;
+                const NewaccessToken = response.data.access;
+                const userRole = response.data.roles;
+                localStorage.setItem('NewaccessToken', NewaccessToken);
+                console.log(NewaccessToken)
 
-                console.log(accessToken)
-
-                // Store the access token in localStorage
-                localStorage.setItem('accessToken', accessToken);
-
-                toast.success("User logged in successfully!");
-                navigate("/Dashboard/home");
+               
+                localStorage.setItem('userRole', userRole);
+                if (userRole === 'agent') {
+                
+                    toast.info("Please log in using the mobile app.");
+                } else {
+                   
+                    toast.success("User logged in successfully!");
+                    navigate("/Dashboard/home", { state: { userRole } });
+                }
             }
 
         } catch (error) {
             // Handle errors here
             if (error.response) {
                 console.error("Server error:", error.response.data);
-                toast.error("An error occurred while logging in.");
+                if (error.response.status === 400 && error.response.data.non_field_errors) {
+                    toast.error("Incorrect credentials. Please check your email and password.");
+                } else {
+                    toast.error("An error occurred while logging in.");
+                }
             } else if (error.request) {
                 console.error("No response from server:", error.request);
             } else {
@@ -73,6 +83,7 @@ export default function Login() {
             }
         }
     };
+   
 
     return (
         <ThemeProvider theme={defaultTheme}>

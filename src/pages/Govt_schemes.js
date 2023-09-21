@@ -67,10 +67,10 @@ function Govt_schemes() {
                         <div className="app-component-reportcard">
                             <div className="app-new-feeds">
                                 <Grid container spacing={2}>
-                                    <Grid item xs={6} lg={6}>
+                                    <Grid item xs={12} lg={12}>
                                         <div className="new-feeds-content">
                                             <div className="feeds-top-content">
-                                                <h4>Feeds</h4>
+                                                <h4>Schemes</h4>
                                             </div>
                                             <div className="add-post">
                                                 <Link to="/Dashboard/Create_scheme"> <Button >Add Scheme</Button></Link>
@@ -133,9 +133,9 @@ function Govt_schemes() {
                                         })}
                                     </Grid>
 
-                                    <Grid item xs={6} lg={6}>
+                                    {/* <Grid item xs={6} lg={6}>
                                         <Opinion />
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </div>
                         </div>

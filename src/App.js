@@ -21,6 +21,9 @@ import { useAuth } from './components/AuthProvider';
 import Create_Admin from './pages/Create_Admin';
 import Create_Agent from './pages/Create_Agent';
 import UploadVotersData from './pages/UploadVotersData';
+import Viewvotersdata from './pages/Viewvotersdata';
+import ViewAgents from './pages/ViewAgents';
+import ViewAdmins from './pages/ViewAdmins';
 
 
 function App() {
@@ -29,7 +32,7 @@ function App() {
 
 
   console.log(isLoggedIn)
-
+  const userRole = localStorage.getItem('userRole');
   return (
     <BrowserRouter>
       <Routes>
@@ -39,6 +42,9 @@ function App() {
           <Route path="/Dashboard/admin" element={<Create_Admin />} />
           <Route path="/Dashboard/agent" element={<Create_Agent />} />
           <Route path="/Dashboard/votersdata" element={<UploadVotersData />} />
+          <Route path="/Dashboard/viewvotersdata" element={<Viewvotersdata/>}/>
+          <Route path="/Dashboard/viewagents" element={<ViewAgents/>}/>
+          <Route path="/Dashboard/viewadmins" element={<ViewAdmins/>}/>
           <Route path="/Dashboard/Mainfeeds" element={<MainFeeds />} />
           <Route path="/Dashboard/create_post" element={<Create_post />} />
           <Route path="/Dashboard/create_post/:id" element={<Create_post />} />

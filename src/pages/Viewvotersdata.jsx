@@ -3,12 +3,14 @@ import { Grid } from "@mui/material";
 import { noauthinstance } from '../utils/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BsCloudDownload } from 'react-icons/bs';
+import XLSX from 'xlsx';
 
-
-const UploadVotersData = () => {
+const Viewvotersdata = () => {
     const [selectedValue, setSelectedValue] = useState('');
     const [constituencyData, setConstituencyData] = useState([]);
     const [pollingData, setPollingData] = useState([]);
+    const [voterData, setVoterData] = useState(null);
     const [error, setError] = useState(null);
     const [polling_station, setPollingstation] = useState("");
     const [file, setFile] = useState(null);
@@ -44,33 +46,41 @@ const UploadVotersData = () => {
         }
     };
 
-    const postUpload = async () => {
+    const fetchVoterData = async () => {
         try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('polling_station', polling_station);
-    
-            const response = await noauthinstance.post('voters/upload/', formData);
- 
-            setFile(null);
-            setPollingstation("");
-    
-            if (response.data && response.data.message) {
-                toast.success(response.data.message, {
-                    position: "top-right",
-                    
-                });
-            }
+            const response = await noauthinstance.get(`voters/list/export/${polling_station}`);
+            setVoterData(response.data);
         } catch (err) {
-            console.error('Error uploading data:', err);
-            toast.error('Error uploading data', {
+            console.error('Error fetching voter data:', err);
+            toast.error('Error fetching voter data', {
                 position: "top-right",
-               
             });
         }
     };
-    
-    
+
+    const handleDownload = () => {
+        if (!voterData) {
+            toast.error('No voter data available to download', {
+                position: "top-right",
+            });
+            return;
+        }
+
+        const downloadUrl = `http://65.2.174.18:70/api/voters/list/export/${polling_station}`;
+
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = 'voter_data.xlsx';
+
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.click();
+
+        toast.success('Voter data download initiated', {
+            position: "top-right",
+        });
+    };
+
     useEffect(() => {
         fetchConstituency();
     }, []);
@@ -85,7 +95,7 @@ const UploadVotersData = () => {
                                 <Grid>
                                     <div className="app-component-reportcard">
                                         <div className="app-component-reportcard__head">
-                                            <h4>Upload Voters Data</h4>
+                                            <h4>View Voters Data</h4>
                                         </div>
                                         <div className="app-component-reportcard__count">
                                             <div className="select-tags">
@@ -123,20 +133,44 @@ const UploadVotersData = () => {
                                                                 ))}
                                                             </select>
                                                         </Grid>
+
+                                                        <div className="form-group-voters">
+                                                            <button className="view-vote"onClick={fetchVoterData}>
+                                                                View Voters Data
+                                                            </button>
+                                                           
+                                                            {voterData && polling_station && (
+                                                                <button onClick={handleDownload}>
+                                                                    <BsCloudDownload /> Download
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                      
+                                                        {voterData && Array.isArray(voterData) && voterData.length > 0 && (
+                                                            <div className="voter-data-table">
+                                                                <h4>Voter Data</h4>
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Name</th>
+                                                                            <th>Voter ID</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {voterData.map((voter, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{voter.name}</td>
+                                                                                <td>{voter.voterId}</td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        )}
+
                                                     </Grid>
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label>Select Upload</label>
-                                                <input
-                                                    type="file"
-                                                    id=""
-                                                    onChange={handleFileChange}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="create-post-button">
-                                            <button onClick={postUpload}>Upload Data</button>
                                         </div>
                                     </div>
                                 </Grid>
@@ -150,4 +184,4 @@ const UploadVotersData = () => {
     );
 };
 
-export default UploadVotersData;
+export default Viewvotersdata;

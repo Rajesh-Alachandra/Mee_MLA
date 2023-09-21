@@ -4,6 +4,7 @@ import api from "../utils/api"
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Schemes from "../components/Schemes";
 
 
 function Create_scheme() {
@@ -152,7 +153,7 @@ function Create_scheme() {
                                     </Grid>
                                     <Grid item xs={6} lg={6}>
                                         <div className="app-page-home__feeds">
-                                            <Feeds />
+                                            <Schemes />
                                         </div>
                                     </Grid>
                                 </Grid>

@@ -5,10 +5,11 @@ import { ToastContainer } from 'react-toastify'
 import { Outlet } from 'react-router-dom'
 
 const DashBoard = () => {
+    const userRole = localStorage.getItem('userRole');
     return (
         <div className="app-layout">
             <div className="app-layout__sidebar">
-                <SideBar />
+            <SideBar userRole={userRole} />
             </div>
             <div className="app-layout__body">
                 <div className="app-layout__topbar">

@@ -4,12 +4,13 @@ import api from "../utils/api";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Annoncement from "../components/Annoncement";
 
 
 function Create_announcement() {
 
     const navigate = useNavigate();
-
+    const [triggerRefresh, setTriggerRefresh] = useState(0)
 
     const [announcement, setAnnouncement] = useState("");
     const [title, setTitle] = useState("");
@@ -29,6 +30,7 @@ function Create_announcement() {
             const { data, status } = await api.post("annocements/", formData);
             if (data) {
                 toast.success("Announcement Created successfully");
+                setTriggerRefresh(prev => prev + 1)
             } else {
                 toast.error("Failed to create Announcement");
             }
@@ -58,7 +60,7 @@ function Create_announcement() {
                                             </div>
                                             <div className="app-component-reportcard__count">
                                                 <div className="form-group">
-                                                    <label>Select Upload</label>
+                                                    <label>Announcement</label>
                                                     <input value={announcement} onChange={(e) => setAnnouncement(e.target.value)} type="text" className="input-form" placeholder="Create Announcement" ></input>
                                                 </div>
                                                 <div className="form-group">
@@ -77,7 +79,7 @@ function Create_announcement() {
                                     </Grid>
                                     <Grid item xs={6} lg={6}>
                                         <div className="app-page-home__feeds">
-                                            <Feeds />
+                                            <Annoncement />
                                         </div>
                                     </Grid>
                                 </Grid>

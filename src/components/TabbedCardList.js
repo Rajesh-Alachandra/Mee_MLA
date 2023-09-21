@@ -68,9 +68,9 @@ function TabbedCardList({ fetcreports }) {
 
     const fetchReports = async () => {
         try {
-            const response = await api.get("reports/");
+            const response = await api.get("reports");
             setReports(response.data.reports);
-
+            
             const pending = response.data.reports.filter((report) => report.status === "pending");
             const solved = response.data.reports.filter((report) => report.status === "solved");
             const failed = response.data.reports.filter((report) => report.status === "failed");
@@ -83,7 +83,7 @@ function TabbedCardList({ fetcreports }) {
             setReportsError(err);
         }
     };
-
+    console.log(reports);
     React.useEffect(() => {
         fetchReports();
     }, []);

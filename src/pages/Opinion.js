@@ -5,7 +5,7 @@ const Opinion = () => {
     return (
         <>
             <div className="option-share">
-                {/* <div className="new-feeds-content">
+                 <div className="new-feeds-content">
                     <div className="feeds-top-content">
                         <h4>Opinion</h4>
                     </div>
@@ -30,8 +30,8 @@ const Opinion = () => {
                         <h4>In Phase 1  near RythuBazar can we have wall painted with doodles.</h4>
                         <p><strong>Kukatpally</strong>, Today, 09:15 AM</p>
                     </div>
-                </div> */}
-                {/* <div className="surveys-polls">
+                </div> 
+                 <div className="surveys-polls">
                     <div className="new-feeds-content">
                         <div className="feeds-top-content">
                             <h4>Surveys / Polls</h4>
@@ -82,7 +82,7 @@ const Opinion = () => {
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div> 
             </div>
         </>
     )

@@ -9,17 +9,17 @@ import { useNavigate } from "react-router-dom";
 const Create_Admin = () => {
 
 
-    const [firstname, setFirstname] = useState("");
+    const [first_name, setFirstname] = useState("");
 
-    const [lastname, setLastname] = useState("");
+    const [last_name, setLastname] = useState("");
 
     const [email, setEmail] = useState("");
 
     const [password, setPassword] = useState("");
 
-    const [number, setNumber] = useState("")
+    const [phone, setPhone] = useState("")
 
-    const [selectedValue, setSelectedValue] = useState('');
+    const [constituency, setConstituency] = useState('');
 
     const [roles, setRoles] = useState("admin")
 
@@ -51,12 +51,12 @@ const Create_Admin = () => {
     const postAdmin = async () => {
 
         const formData = new FormData();
-        formData.append("constituency", selectedValue);
-        formData.append("firstname", firstname);
+        formData.append("constituency", constituency);
+        formData.append("first_name", first_name);
         formData.append("email", email);
         formData.append("password", password);
-        formData.append("lastname", lastname);
-        formData.append("number", number);
+        formData.append("last_name", last_name);
+        formData.append("phone", phone);
         formData.append("roles", roles);
 
         try {
@@ -64,9 +64,9 @@ const Create_Admin = () => {
             if (response) {
                 toast.success("Admin successfully created!")
             }
-            setSelectedValue("");
+            setConstituency("");
             setLastname("");
-            setNumber("");
+            setPhone("");
             setEmail("");
             setPassword("");
             setFirstname("")
@@ -99,11 +99,11 @@ const Create_Admin = () => {
                                                     <Grid container spacing={2}>
                                                         <Grid item xs={6}>
                                                             <label>First Name</label>
-                                                            <input value={firstname} onChange={(e) => setFirstname(e.target.value)} type="text" className="input-form" placeholder="Enter FirstName"></input>
+                                                            <input value={first_name} onChange={(e) => setFirstname(e.target.value)} type="text" className="input-form" placeholder="Enter FirstName"></input>
                                                         </Grid>
                                                         <Grid item xs={6}>
                                                             <label>Last Name</label>
-                                                            <input value={lastname} onChange={(e) => setLastname(e.target.value)} type="text" className="input-form" placeholder="Enter LastName"></input>
+                                                            <input value={last_name} onChange={(e) => setLastname(e.target.value)} type="text" className="input-form" placeholder="Enter LastName"></input>
                                                         </Grid>
                                                     </Grid>
                                                 </div>
@@ -124,13 +124,13 @@ const Create_Admin = () => {
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={6}>
                                                         <label>Mobile Number</label>
-                                                        <input value={number} onChange={(e) => setNumber(e.target.value)} type="text" className="input-form" placeholder="Enter Mobile Number"></input>
+                                                        <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" className="input-form" placeholder="Enter Mobile Number"></input>
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <label>Constituency</label>
                                                         <select className="input-form"
-                                                            value={selectedValue}
-                                                            onChange={(e) => setSelectedValue(e.target.value)}
+                                                            value={constituency}
+                                                            onChange={(e) => setConstituency(e.target.value)}
                                                         >
                                                             <option value="" disabled selected>Select Polling Constituency</option>
                                                             {constituencyData.map((option, index) => (
