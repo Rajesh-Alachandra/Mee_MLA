@@ -62,9 +62,10 @@ function Schemes() {
                 <div className="app-component-feeds__head">
                     <h3>Schemes</h3>
                 </div>
-                <div className="app-component-feeds__body">
+                <div className="app-component-feeds__body ">
                     <div className="">
                         <p className="app-component-feeds--title">Announcement</p>
+                        <div className='announce-scroll'>
                         {data && data.map((item, index) => {
                             return (
                                 <ul className="notificaton-card__list">
@@ -73,7 +74,7 @@ function Schemes() {
                                             <h4>{item.title}</h4>
                                             <span>{new Date(item.updatedAt).toDateString()}</span>
                                         </div>
-                                        <div className="notificaton-card__actions">
+                                        {/* <div className="notificaton-card__actions">
                                             <ul className="notificaton-card__actions--list">
                                                 <li className="notificaton-card__actions--listitem">
                                                     <IconButton
@@ -100,16 +101,17 @@ function Schemes() {
                                                     </Menu>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> */}
                                     </li>
                                 </ul>
                             )
                         })}
+                        </div>
                     </div>
 
                     <div className="">
                         <p className="app-component-feeds--title">Other</p>
-                        <ul className="notificaton-card__list">
+                        <ul className="notificaton-card__list feeds-scroll">
                             {post && post.slice(0, visibleItemCount).map((item, index) => {
                                 console.log(item)
                                 return (
@@ -121,7 +123,7 @@ function Schemes() {
                                                     <p>{item.description}</p>
                                                     <span>{new Date(item.updatedAt).toDateString()}</span>
                                                 </div>
-                                                <div className="notificaton-card__actions">
+                                                {/* <div className="notificaton-card__actions">
                                                     <ul className="notificaton-card__actions--list">
                                                         <li className="notificaton-card__actions--listitem">
                                                             <IconButton
@@ -148,11 +150,11 @@ function Schemes() {
                                                             </Menu>
                                                         </li>
                                                     </ul>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className="feeds-type-photo-wrapper">
                                                 <img className="feed-post-image" src={item.image} />
-                                                <div className="feeds-type-photo-actions">
+                                                {/* <div className="feeds-type-photo-actions">
                                                     <ul className="feeds-type-photo-actions__list">
                                                         <li className="feeds-type-photo-actions__item">
                                                             <Button className="like-btn like-btn--active">
@@ -170,7 +172,7 @@ function Schemes() {
                                                     <div className="feeds-type-photo-actions__share">
                                                         <IconButton><img src="/images/share.svg" /></IconButton>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </li>

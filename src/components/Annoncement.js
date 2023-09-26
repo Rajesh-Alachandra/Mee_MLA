@@ -3,14 +3,14 @@ import { Button, IconButton } from "@mui/material";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import api from "../utils/api";
-
+import {MdDelete} from 'react-icons/md'
 function Annoncement() {
 
 
     const [data, setData] = React.useState([]);
     const [error, setError] = React.useState(null);
     const [visibleItemCount, setVisibleItemCount] = React.useState(3)
-
+    const [triggerRefresh, setTriggerRefresh] =React.useState(0)
 
     console.log(data)
 
@@ -18,6 +18,7 @@ function Annoncement() {
         try {
             const response = await api.get("annocements")
             setData(response.data);
+            setTriggerRefresh(prev => prev + 1)
         } catch (err) {
             console.error('Error fetching data:', err);
             setError(err);
@@ -28,7 +29,15 @@ function Annoncement() {
         fetchData()
     }, [])
 
-
+    const handleDelete = async (announcementId) => {
+        try {
+            await api.delete(`annocements/${announcementId}/`);
+            // After successful deletion, you can refetch the data to update the list
+            fetchData();
+        } catch (err) {
+            console.error(`Error deleting announcement with ID ${announcementId}:`, err);
+        }
+    };
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,19 +52,21 @@ function Annoncement() {
         <>
             <div className="app-component-announcements">
                 <div className="app-component-announcements__head">
-                    <h3>Announcement</h3>
+                    <h3>Announcements</h3>
                 </div>
+                <div className='announcement-scroll'>
                 {data && data.slice(0, visibleItemCount).map((item, index) => {
                     return (
                         <div className="app-component-announcements__list">
                             <ul className="notificaton-card__list">
-                                <li className="notificaton-card__listitem">
+                                <li className="notificaton-card__listitem annonce-delete">
                                     <div className="notificaton-card__info">
                                         <h4>{item.title}</h4>
-                                        <h4>{item.description}</h4>
+                                        <p>{item.description}</p>
                                         <span>{new Date(item.updatedAt).toDateString()}</span>
                                     </div>
-                                    <div className="notificaton-card__actions">
+                                    <MdDelete onClick={() => handleDelete(item.id)} />
+                                    {/* <div className="notificaton-card__actions">
                                         <ul className="notificaton-card__actions--list">
                                             <li className="notificaton-card__actions--listitem">
                                                 <IconButton>
@@ -87,12 +98,13 @@ function Annoncement() {
                                                 </Menu>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> */}
                                 </li>
                             </ul>
                         </div>
                     )
                 })}
+                </div>
                 {visibleItemCount < data.length && (
                     <Button className="text-button" onClick={() => setVisibleItemCount(data.length)}>
                         See More

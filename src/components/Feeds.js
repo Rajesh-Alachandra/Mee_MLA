@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FavIcon from '../Icons/FavIcon';
 import api from "../utils/api";
-
+import {MdDelete} from 'react-icons/md'
 function Feeds() {
 
 
@@ -50,6 +50,14 @@ function Feeds() {
     }, [])
 
 
+    const handleDelete = async (itemId) => {
+        try {
+            await api.delete(`posts/${itemId}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -68,15 +76,17 @@ function Feeds() {
                 <div className="app-component-feeds__body">
                     <div className="">
                         <p className="app-component-feeds--title">Announcement</p>
+                        <div className=' announce-scroll'>
                         {data && data.map((item, index) => {
                             return (
-                                <ul className="notificaton-card__list">
+                               
+                                <ul className="notificaton-card__list ">
                                     <li key={index} className="notificaton-card__listitem">
                                         <div className="notificaton-card__info">
                                             <h4>{item.title}</h4>
                                             <span>{new Date(item.updatedAt).toDateString()}</span>
                                         </div>
-                                        <div className="notificaton-card__actions">
+                                        {/* <div className="notificaton-card__actions">
                                             <ul className="notificaton-card__actions--list">
                                                 <li className="notificaton-card__actions--listitem">
                                                     <IconButton
@@ -103,16 +113,18 @@ function Feeds() {
                                                     </Menu>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> */}
                                     </li>
                                 </ul>
+                              
                             )
                         })}
+                        </div>
                     </div>
 
                     <div className="">
                         <p className="app-component-feeds--title">Other</p>
-                        <ul className="notificaton-card__list">
+                        <ul className="notificaton-card__list feeds-scroll">
                             {post && post.slice(0, visibleItemCount).map((item, index) => {
                                 console.log(item)
                                 return (
@@ -120,11 +132,14 @@ function Feeds() {
                                         <div className="feeds-type-photo">
                                             <div className="feeds-type-photo__wrapper">
                                                 <div className="notificaton-card__info">
+                                                    <div className='feeds-delete'>
                                                     <h4>{item.title}</h4>
+                                                    {/* <MdDelete onClick={() => handleDelete(item.id)} /> */}
+                                                    </div>
                                                     <p>{item.description}</p>
                                                     <span>{new Date(item.updatedAt).toDateString()}</span>
                                                 </div>
-                                                <div className="notificaton-card__actions">
+                                                {/* <div className="notificaton-card__actions">
                                                     <ul className="notificaton-card__actions--list">
                                                         <li className="notificaton-card__actions--listitem">
                                                             <IconButton
@@ -151,11 +166,11 @@ function Feeds() {
                                                             </Menu>
                                                         </li>
                                                     </ul>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className="feeds-type-photo-wrapper">
                                                 <img className="feed-post-image" src={item.image} />
-                                                <div className="feeds-type-photo-actions">
+                                                {/* <div className="feeds-type-photo-actions">
                                                     <ul className="feeds-type-photo-actions__list">
                                                         <li className="feeds-type-photo-actions__item">
                                                             <Button className="like-btn like-btn--active">
@@ -173,7 +188,7 @@ function Feeds() {
                                                     <div className="feeds-type-photo-actions__share">
                                                         <IconButton><img src="/images/share.svg" /></IconButton>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </li>

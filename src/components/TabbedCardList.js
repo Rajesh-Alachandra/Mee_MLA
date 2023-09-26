@@ -68,7 +68,18 @@ function TabbedCardList({ fetcreports }) {
 
     const fetchReports = async () => {
         try {
-            const response = await api.get("reports");
+            const NewaccessToken = localStorage.getItem('NewaccessToken');
+            console.log(NewaccessToken)
+            if (!NewaccessToken) {
+                throw new Error('Authentication credentials were not provided.');
+            }
+
+            const headers = {
+                Authorization: `Bearer ${NewaccessToken}`,
+            };
+            const response = await api.get("reports", { headers });
+
+            console.log({t: response.data.reports})
             setReports(response.data.reports);
             
             const pending = response.data.reports.filter((report) => report.status === "pending");
@@ -90,7 +101,17 @@ function TabbedCardList({ fetcreports }) {
 
     const updateStatus = async (reportId, newStatus) => {
         try {
-            const respone = await api.patch(`reports/${reportId}/status/`, { status: newStatus });
+
+            const NewaccessToken = localStorage.getItem('NewaccessToken');
+            console.log(NewaccessToken)
+            if (!NewaccessToken) {
+                throw new Error('Authentication credentials were not provided.');
+            }
+
+            const headers = {
+                Authorization: `Bearer ${NewaccessToken}`,
+            };
+            const respone = await api.patch(`reports/${reportId}/status/`, { status: newStatus },{headers});
             toast.success(respone.data.message.success)
             // window.location.reload();
             setAnchorEl(null);

@@ -12,9 +12,9 @@ function Home() {
                         <div className="app-page-home__reportcards">
                             <ReportedCard />
                         </div>
-                        <div className="app-page-home__announcements mt-30">
+                        {/* <div className="app-page-home__announcements mt-30">
                             <Annoncement />
-                        </div>
+                        </div> */}
                     </Grid>
                     <Grid item lg="5">
                         <div className="app-page-home__feeds">

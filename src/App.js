@@ -24,6 +24,7 @@ import UploadVotersData from './pages/UploadVotersData';
 import Viewvotersdata from './pages/Viewvotersdata';
 import ViewAgents from './pages/ViewAgents';
 import ViewAdmins from './pages/ViewAdmins';
+import  VotersListPdf from './components/VotersListPdf';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path="/Dashboard/report_problem" element={<Report_problem />} />
           <Route path="/Dashboard/create_announcement" element={<Create_announcement />} />
         </Route>
+        <Route path="/pdf" element={<VotersListPdf />} />
         {isLoggedIn ? (
           <Route path="/Dashboard" element={<Home />} />
         ) : (

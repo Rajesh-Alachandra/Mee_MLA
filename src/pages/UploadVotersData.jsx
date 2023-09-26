@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Grid } from "@mui/material";
 import { noauthinstance } from '../utils/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 const UploadVotersData = () => {
     const [selectedValue, setSelectedValue] = useState('');
@@ -12,6 +11,7 @@ const UploadVotersData = () => {
     const [error, setError] = useState(null);
     const [polling_station, setPollingstation] = useState("");
     const [file, setFile] = useState(null);
+    const fileInputRef = useRef(null);
 
     const handleConstituencyChange = (e) => {
         const selectedConstituency = e.target.value;
@@ -44,33 +44,70 @@ const UploadVotersData = () => {
         }
     };
 
+   
     const postUpload = async () => {
         try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('polling_station', polling_station);
-    
-            const response = await noauthinstance.post('voters/upload/', formData);
- 
-            setFile(null);
-            setPollingstation("");
-    
-            if (response.data && response.data.message) {
-                toast.success(response.data.message, {
+            if (!polling_station) {
+                toast.error('Please select a polling booth.', {
                     position: "top-right",
+                });
+                return;
+            }
+
+            const selectedPollingBooth = pollingData.find(option => option.id === parseInt(polling_station));
+            console.log('Selected Polling Booth:', selectedPollingBooth);
+
+            if (selectedPollingBooth) {
+                if (selectedPollingBooth.is_uploded) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('polling_station', polling_station);
+                    const response = await noauthinstance.post('voters/re-upload/',formData);
+                    toast.success(response.data.message, {
+                        position: "top-right",
+                    });
+                } else {
                     
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('polling_station', polling_station);
+        
+                    const response = await noauthinstance.post('voters/upload/', formData);
+                    toast.success(response.data.message, {
+                        position: "top-right",
+                    });
+                }
+
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = null;
+                }
+                setPollingstation("");
+                setSelectedValue("");
+                setFile(null);
+
+                
+                setPollingData(prevPollingData => {
+                    return prevPollingData.map(option => {
+                        if (option.id === parseInt(polling_station)) {
+                            return { ...option, is_uploded: true };
+                        }
+                        return option;
+                    });
                 });
             }
         } catch (err) {
             console.error('Error uploading data:', err);
-            toast.error('Error uploading data', {
+            const errorMessage = err.response && err.response.data ? err.response.data.message : 'Error uploading data';
+            toast.error(errorMessage, {
                 position: "top-right",
-               
             });
+            setPollingstation("");
+            setSelectedValue("");
+            setFile(null);
         }
     };
-    
-    
+
+
     useEffect(() => {
         fetchConstituency();
     }, []);
@@ -116,12 +153,26 @@ const UploadVotersData = () => {
                                                                 <option value="" disabled>
                                                                     Select Polling Booth
                                                                 </option>
-                                                                {pollingData.map((option, index) => (
-                                                                    <option key={index} value={option.id}>
-                                                                        {option.name}
-                                                                    </option>
-                                                                ))}
+                                                                <optgroup label="Not Uploaded Booths">
+                                                                    {pollingData.map((option, index) => (
+                                                                        !option.is_uploded && (
+                                                                            <option key={index} value={option.id}>
+                                                                                {option.name}
+                                                                            </option>
+                                                                        )
+                                                                    ))}
+                                                                </optgroup>
+                                                                <optgroup label="Uploaded Booths">
+                                                                    {pollingData.map((option, index) => (
+                                                                        option.is_uploded && (
+                                                                            <option key={index} value={option.id}>
+                                                                                {option.name}
+                                                                            </option>
+                                                                        )
+                                                                    ))}
+                                                                </optgroup>
                                                             </select>
+
                                                         </Grid>
                                                     </Grid>
                                                 </div>
@@ -131,6 +182,7 @@ const UploadVotersData = () => {
                                                 <input
                                                     type="file"
                                                     id=""
+                                                    ref={fileInputRef}
                                                     onChange={handleFileChange}
                                                 />
                                             </div>

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BsCloudDownload } from 'react-icons/bs';
 import XLSX from 'xlsx';
+import { Link } from 'react-router-dom';
 
 const Viewvotersdata = () => {
     const [selectedValue, setSelectedValue] = useState('');
@@ -135,14 +136,23 @@ const Viewvotersdata = () => {
                                                         </Grid>
 
                                                         <div className="form-group-voters">
-                                                            <button className="view-vote"onClick={fetchVoterData}>
+                                                            <button  className="view-vote"onClick={fetchVoterData}>
                                                                 View Voters Data
                                                             </button>
+                                                            
                                                            
                                                             {voterData && polling_station && (
-                                                                <button onClick={handleDownload}>
-                                                                    <BsCloudDownload /> Download
+                                                                <div>
+                                                                <button style={{'padding':'10px', cursor:'pointer'}} onClick={handleDownload}>
+                                                                    <BsCloudDownload /> Download as excel
                                                                 </button>
+                                                                <Link to='/pdf'>
+                                                                <button style={{'padding':'10px',marginLeft:'10px', cursor:'pointer'}} >
+                                                                    
+                                                                View and download as pdf
+                                                            </button>
+                                                            </Link>
+                                                            </div>
                                                             )}
                                                         </div>
                                                       

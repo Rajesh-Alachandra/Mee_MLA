@@ -14,6 +14,7 @@ import api from "../utils/api"
 import { Link } from "react-router-dom";
 import Opinion from "./Opinion";
 import EditScheme from "../components/EditScheme";
+import {HiOutlineUserCircle} from'react-icons/hi2';
 
 
 function Govt_schemes() {
@@ -76,6 +77,7 @@ function Govt_schemes() {
                                                 <Link to="/Dashboard/Create_scheme"> <Button >Add Scheme</Button></Link>
                                             </div>
                                         </div>
+                                        <div className="schemes-scroll">
                                         {data && data.map((item, index) => {
                                             console.log(item)
                                             return (
@@ -86,11 +88,11 @@ function Govt_schemes() {
                                                     <div className="app-new-feeds-box-content">
                                                         <div key={index} className="person-info">
                                                             <div class="person-inf0-deatils">
-                                                                <ul>
+                                                                <ul className="person-info-display">
                                                                     <li>
-                                                                        <img src={person} />
+                                                                        <HiOutlineUserCircle/>
                                                                     </li>
-                                                                    <li>{item.user.first_name}
+                                                                    <li>{item.user.first_name}  {item.user.last_name}
                                                                         <span>
                                                                             <h5>MLA</h5>
                                                                             <h6>TRS</h6>
@@ -131,6 +133,7 @@ function Govt_schemes() {
                                                 </div>
                                             )
                                         })}
+                                        </div>
                                     </Grid>
 
                                     {/* <Grid item xs={6} lg={6}>

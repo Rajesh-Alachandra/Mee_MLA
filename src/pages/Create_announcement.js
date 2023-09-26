@@ -79,7 +79,7 @@ function Create_announcement() {
                                     </Grid>
                                     <Grid item xs={6} lg={6}>
                                         <div className="app-page-home__feeds">
-                                            <Annoncement />
+                                            <Annoncement/>
                                         </div>
                                     </Grid>
                                 </Grid>

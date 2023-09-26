@@ -10,6 +10,7 @@ import api from "../utils/api";
 import { Link } from "react-router-dom";
 import Opinion from "./Opinion";
 import EditPost from "../components/EditPost";
+import {HiOutlineUserCircle} from'react-icons/hi2';
 
 function MainFeeds() {
     const [data, setData] = useState([]);
@@ -66,6 +67,7 @@ function MainFeeds() {
                                                 </Link>
                                             </div>
                                         </div>
+                                        <div className="mainfeeds-scroll">
                                         {data && data.map((item, index) => (
                                             <div className="app-new-feeds-content-box" key={item.id}>
                                                 {editingPostId === item.id ? (
@@ -75,9 +77,9 @@ function MainFeeds() {
                                                         {/* Render other content */}
                                                         <div className="person-info">
                                                             <div class="person-inf0-deatils">
-                                                                <ul>
+                                                                <ul className="person-info-display">
                                                                     <li>
-                                                                        <img src={person} />
+                                                                        <HiOutlineUserCircle/>
                                                                     </li>
                                                                     <li>{item.user.first_name}    {item.user.last_name}
                                                                         <span>
@@ -141,6 +143,7 @@ function MainFeeds() {
                                                 )}
                                             </div>
                                         ))}
+                                        </div>
                                     </Grid>
                                     {/* <Grid item xs={6} lg={6}>
                                         <Opinion />

@@ -47,7 +47,18 @@ function ReportedCard() {
     const fetcreports = async () => {
         console.log("1")
         try {
-            const response = await api.get("/reports/count")
+
+            const NewaccessToken = localStorage.getItem('NewaccessToken');
+            console.log(NewaccessToken)
+            if (!NewaccessToken) {
+                throw new Error('Authentication credentials were not provided.');
+            }
+
+            const headers = {
+                Authorization: `Bearer ${NewaccessToken}`,
+            };
+            
+            const response = await api.get("/reports/count",{headers})
             setData(response.data);
         } catch (err) {
             console.error('Error fetching data:', err);

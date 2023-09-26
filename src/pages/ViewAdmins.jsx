@@ -20,7 +20,7 @@ const ViewAdmins = () => {
             //     Authorization: `Bearer ${NewaccessToken}`,
             // };
 
-            const response = await noauthinstance.get('user/admins');
+            const response = await noauthinstance.get('user/admins/');
             setAgents(response.data);
         } catch (err) {
             console.error('Error fetching agents:', err);
@@ -71,7 +71,8 @@ const ViewAdmins = () => {
                                                         <td>{agent.email || '-'}</td>
                                                         <td>{agent.phone || '-'}</td>
                                                         <td>{agent.roles || '-'}</td>
-                                                        <td>{agent.constituency.name || '-'}</td>
+                                                        <td>{agent.constituency ? agent.constituency.name || '-' : '-'}</td>
+
                                                         {/* <td>{agent.polling_stations.name || '-'}</td> */}
                                                     </tr>
                                                 ))}

@@ -5,7 +5,7 @@ import axios from 'axios';
 //   return localStorage.getItem('userToken');
 // }
 
-const accessToken = localStorage.getItem("accessToken")
+const NewaccessToken = localStorage.getItem("NewaccessToken")
 
 
 const instance = axios.create({
@@ -14,7 +14,7 @@ const instance = axios.create({
     headers: {
         // 'Content-Type': 'multipart/form-data',
         'Accept': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${NewaccessToken}`,
     },
 });
 

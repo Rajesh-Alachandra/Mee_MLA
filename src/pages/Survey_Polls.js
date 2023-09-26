@@ -175,14 +175,14 @@ function Survey_Polls() {
                                                     <h3>Created polls</h3>
                                                 </div>
                                             </div>
-                                            <div className="phase-box">
-        
+                                            <div className="phase-box polldata-scroll">
+
                                                 {pollData.map((poll, index) => (
                                                     <div className="election-meeting" key={index}>
                                                         <div className="phase-box-content">
                                                             <div className="_0bpq">
                                                                 <h3>{poll.question}</h3>
-                                                               
+
 
                                                                 {poll.choices.map((choice, choiceIndex) => (
                                                                     <div className="_0cyc" key={choiceIndex}>
@@ -193,12 +193,15 @@ function Survey_Polls() {
                                                                             <Tooltip title={`${choice.votes} votes`} arrow>
                                                                                 <div
                                                                                     className="bar"
-                                                                                    style={{ width: `${(choice.votes / poll.total_votes) * 100}%` }}
+                                                                                    style={{
+                                                                                        width: `${choice.votes > 0 ? (choice.votes / poll.total_votes) * 100 : 0}%`,
+                                                                                    }}
                                                                                 />
                                                                             </Tooltip>
                                                                         </div>
                                                                     </div>
                                                                 ))}
+
 
                                                             </div>
                                                         </div>

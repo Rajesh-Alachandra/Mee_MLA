@@ -13,9 +13,20 @@ function Reports() {
     console.log({data})
 
     const fetcreports = async () => {
-        console.log("1")
+       
         try {
-            const response = await axios.get("http://65.2.174.18:70/api/reports/count")
+
+            const NewaccessToken = localStorage.getItem('NewaccessToken');
+            console.log(NewaccessToken)
+            if (!NewaccessToken) {
+                throw new Error('Authentication credentials were not provided.');
+            }
+
+            const headers = {
+                Authorization: `Bearer ${NewaccessToken}`,
+            };
+            
+            const response = await api.get("/reports/count",{headers})
             setData(response.data);
         } catch (err) {
             console.error('Error fetching data:', err);
@@ -35,7 +46,7 @@ function Reports() {
                         <div className="app-component-reportcard">
                             <div className="app-new-feeds">
                                 <Grid container spacing={2}>
-                                    <Grid item xs={6} lg={6}>
+                                    <Grid item xs={12} lg={12}>
                                         <div className="app-component-reportcard">
                                             <div className="app-component-reportcard__head">
                                                 <h4>Reported</h4>
@@ -123,9 +134,9 @@ function Reports() {
                                             </div>
                                         </div>
                                     </Grid>
-                                    <Grid item xs={6} lg={6}>
+                                    {/* <Grid item xs={6} lg={6}>
                                         <Opinion />
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </div>
                         </div>
