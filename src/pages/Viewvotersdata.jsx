@@ -136,26 +136,26 @@ const Viewvotersdata = () => {
                                                         </Grid>
 
                                                         <div className="form-group-voters">
-                                                            <button  className="view-vote"onClick={fetchVoterData}>
+                                                            <button className="view-vote" onClick={fetchVoterData}>
                                                                 View Voters Data
                                                             </button>
-                                                            
-                                                           
+
+
                                                             {voterData && polling_station && (
                                                                 <div>
-                                                                <button style={{'padding':'10px', cursor:'pointer'}} onClick={handleDownload}>
-                                                                    <BsCloudDownload /> Download as excel
-                                                                </button>
-                                                                <Link to='/pdf'>
-                                                                <button style={{'padding':'10px',marginLeft:'10px', cursor:'pointer'}} >
-                                                                    
-                                                                View and download as pdf
-                                                            </button>
-                                                            </Link>
-                                                            </div>
+                                                                    <button style={{ 'padding': '10px', cursor: 'pointer' }} onClick={handleDownload}>
+                                                                        <BsCloudDownload /> Download as excel
+                                                                    </button>
+                                                                    <Link to={`/pdf?polling_station=${polling_station}`}>
+                                                                        <button style={{ 'padding': '10px', marginLeft: '10px', cursor: 'pointer' }}>
+                                                                            View and download as pdf
+                                                                        </button>
+                                                                    </Link>
+
+                                                                </div>
                                                             )}
                                                         </div>
-                                                      
+
                                                         {voterData && Array.isArray(voterData) && voterData.length > 0 && (
                                                             <div className="voter-data-table">
                                                                 <h4>Voter Data</h4>

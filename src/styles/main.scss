@@ -1163,3 +1163,16 @@ body{
 .person-info-display svg{
   font-size: 35px;
 }
+.delete-agents button{
+  background-color: #ED048D;
+  color: white;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.delete-agents{
+  display: flex;
+    align-items: end;
+    justify-content: end;
+}
