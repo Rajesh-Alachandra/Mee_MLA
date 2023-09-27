@@ -22,6 +22,7 @@ function MainFeeds() {
         try {
             const response = await api.get("posts")
             setData(response.data);
+            console.log('hhhhh',data)
         } catch (err) {
             console.error('Error fetching data:', err);
             setError(err);

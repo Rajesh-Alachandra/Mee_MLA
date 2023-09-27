@@ -81,7 +81,7 @@ function TabbedCardList({ fetcreports }) {
 
             console.log({t: response.data.reports})
             setReports(response.data.reports);
-            
+      
             const pending = response.data.reports.filter((report) => report.status === "pending");
             const solved = response.data.reports.filter((report) => report.status === "solved");
             const failed = response.data.reports.filter((report) => report.status === "failed");
@@ -136,9 +136,11 @@ function TabbedCardList({ fetcreports }) {
                 </div>
                 <div className="app-component-tabbed-card-list__content">
                     <CustomTabPanel value={value} index={0}>
-                        <ul className="notificaton-card__list">
+                        <ul className="notificaton-card__list report-image-scroll">
                             {reports && reports.map((item, inddex) => {
+                                      console.log('image',item.report_image)
                                 return (
+                                    <div className='notificaton-card-div'>
                                     <li className="notificaton-card__listitem">
                                         <div className="notificaton-card__info">
                                             <h4>{item.report}</h4>
@@ -147,9 +149,9 @@ function TabbedCardList({ fetcreports }) {
                                         <div className="notificaton-card__actions">
                                             <ul className="notificaton-card__actions--list">
                                                 <li className="notificaton-card__actions--listitem">
-                                                    <IconButton>
+                                                    {/* <IconButton>
                                                         <img src="/images/pin.svg" />
-                                                    </IconButton>
+                                                    </IconButton> */}
                                                 </li>
                                                 <li className="notificaton-card__actions--listitem">
                                                     <IconButton
@@ -174,14 +176,26 @@ function TabbedCardList({ fetcreports }) {
                                                         <MenuItem onClick={() => updateStatus(item.id, "solved")}>Set as Solved</MenuItem>
                                                         <MenuItem onClick={() => updateStatus(item.id, "failed")}>Set as Failed</MenuItem>
                                                     </Menu>
+
+                                                   
                                                 </li>
                                             </ul>
                                         </div>
+                                       
                                     </li>
+                                    <h4>Reported Image</h4>
+                                    <img src={`http://65.2.174.18:70${item.report_image}`} alt="" />
+                                    <h4>Reported Selfie</h4>
+                                    <img src={`http://65.2.174.18:70${item.reporter_selfie}`} alt="" />
+
+
+
+                                    </div>
                                 )
                             })}
 
                         </ul>
+                        
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
                         <ul className="notificaton-card__list">
